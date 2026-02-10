@@ -4,15 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CALCULADORA ONCOSALUD TCONTAKTO</title>
+    <meta name="robots" content="noindex, nofollow">
     <style>
         :root { 
             --ios-blue: #007AFF; 
             --ios-bg: rgba(255, 255, 255, 0.75);
-            --ios-gray: #f2f2f7;
         }
 
+        /* Pantalla de Bloqueo */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #003399; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 9999;
+            color: white; font-family: -apple-system, sans-serif;
+        }
+
+        #login-screen input {
+            padding: 15px; border-radius: 12px; border: none; width: 250px;
+            font-size: 18px; text-align: center; margin-bottom: 15px; outline: none;
+        }
+
+        #login-screen button {
+            background: var(--ios-blue); color: white; border: none;
+            padding: 12px 30px; border-radius: 12px; font-weight: bold; cursor: pointer;
+        }
+
+        #main-content { display: none; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             background: linear-gradient(rgba(0, 51, 153, 0.7), rgba(0, 51, 153, 0.7)), 
                         url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070&auto=format&fit=crop');
             background-size: cover; background-attachment: fixed;
@@ -21,28 +41,19 @@
 
         .total-box {
             position: fixed; bottom: 30px; right: 30px;
-            background: rgba(255, 255, 255, 0.9); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 20px; border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-            border: 1px solid rgba(255,255,255,0.3);
-            text-align: center; z-index: 1000; min-width: 180px;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
+            padding: 20px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center; z-index: 1000; min-width: 180px; border: 1px solid rgba(255,255,255,0.3);
         }
-        #suma-total { font-size: 36px; font-weight: 700; color: var(--ios-blue); letter-spacing: -1px; }
+        #suma-total { font-size: 36px; font-weight: 700; color: var(--ios-blue); }
 
         .container {
-            background: var(--ios-bg); 
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            background: var(--ios-bg); backdrop-filter: blur(30px);
             padding: 40px; border-radius: 35px; width: 100%; max-width: 1250px;
             margin-bottom: 100px; box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.4);
         }
 
-        h2 { 
-            text-align:center; color: #1d1d1f; font-weight: 800; 
-            font-size: 28px; margin-top:0; margin-bottom: 35px; 
-            letter-spacing: -0.5px;
-        }
+        h2 { text-align:center; color: #1d1d1f; font-weight: 800; font-size: 28px; margin-bottom: 35px; }
 
         .cotizacion-row {
             display: grid; grid-template-columns: 2.2fr 1.1fr 1.1fr 0.8fr 0.8fr 1.2fr 0.4fr;
@@ -54,43 +65,52 @@
         label { display: block; font-size: 10px; font-weight: 700; color: #6e6e73; margin-bottom: 6px; text-transform: uppercase; }
         
         select, input { 
-            -webkit-appearance: none; appearance: none; 
-            width: 100%; padding: 12px; border: none; border-radius: 12px; 
-            font-size: 13px; color: #1d1d1f; font-weight: 500; outline: none;
-            background-color: white; cursor: pointer;
+            -webkit-appearance: none; width: 100%; padding: 12px; border: none; border-radius: 12px; 
+            font-size: 13px; color: #1d1d1f; background-color: white; outline: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat; background-position: right 10px center;
         }
 
         .monto-fila { font-weight: 700; color: var(--ios-blue); font-size: 24px; text-align: right; }
-
-        .btn-add {
-            background: var(--ios-blue); color: white; border: none; padding: 16px 32px;
-            border-radius: 18px; font-weight: 600; cursor: pointer; transition: 0.3s;
-        }
-        
-        .btn-del { 
-            background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: none; 
-            padding: 8px; border-radius: 10px; cursor: pointer; font-weight: bold;
-        }
+        .btn-add { background: #28a745; color: white; border: none; padding: 16px 32px; border-radius: 18px; font-weight: 600; cursor: pointer; }
+        .btn-del { background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: none; padding: 8px; border-radius: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="total-box">
-    <div style="font-size: 10px; font-weight: 600; color: #8e8e93;">TOTAL GENERAL</div>
-    <div id="suma-total">S/ 0.00</div>
+<div id="login-screen">
+    <h3 style="margin-bottom: 20px; letter-spacing: 1px;">ACCESO PRIVADO TCONTAKTO</h3>
+    <input type="password" id="pass-field" placeholder="Ingresar Contraseña">
+    <button onclick="verificar()">ENTRAR A CALCULADORA</button>
 </div>
 
-<div class="container">
-    <h2>CALCULADORA ONCOSALUD TCONTAKTO</h2>
-    <div id="lista-cotizaciones"></div>
-    <div style="text-align: center; margin-top: 25px;">
-        <button class="btn-add" onclick="agregarFila()">+ AGREGAR OTRO SEGURO</button>
+<div id="main-content">
+    <div class="total-box">
+        <div style="font-size: 10px; font-weight: 600; color: #8e8e93;">TOTAL GENERAL</div>
+        <div id="suma-total">S/ 0.00</div>
+    </div>
+
+    <div class="container">
+        <h2>CALCULADORA ONCOSALUD TCONTAKTO</h2>
+        <div id="lista-cotizaciones"></div>
+        <div style="text-align: center; margin-top: 25px;">
+            <button class="btn-add" onclick="agregarFila()">+ AGREGAR OTRO SEGURO</button>
+        </div>
     </div>
 </div>
 
 <script>
+function verificar() {
+    const claveCorrecta = "TC2024"; 
+    if (document.getElementById('pass-field').value === claveCorrecta) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        agregarFila();
+    } else {
+        alert("Acceso Denegado");
+    }
+}
+
 const baseDeDatos = new Map([
 ["0 ACC CLASSICMENSUALDEBITOSI0", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI1", 20.9],
@@ -11575,13 +11595,10 @@ function borrar(id) { document.getElementById(`fila-${id}`).remove(); sumarTodo(
 function calc(id) {
     const val = (s) => document.getElementById(s + '-' + id).value;
     const p = val('p'), pg = val('pg'), t = val('t'), f = val('f'), e = val('e');
-    
     if (p === "" || pg === "" || t === "" || f === "" || e === "") {
         document.getElementById(`res-${id}`).innerText = "S/ 0.00";
-        sumarTodo();
-        return;
+        sumarTodo(); return;
     }
-
     const llave = p + pg + t + f + e;
     const precio = baseDeDatos.get(llave) || 0;
     document.getElementById(`res-${id}`).innerText = "S/ " + parseFloat(precio).toFixed(2);
@@ -11593,8 +11610,6 @@ function sumarTodo() {
     document.querySelectorAll('.monto-fila').forEach(el => t += parseFloat(el.innerText.replace('S/ ', '')) || 0);
     document.getElementById('suma-total').innerText = "S/ " + t.toFixed(2);
 }
-
-window.onload = agregarFila;
 </script>
 </body>
 </html>
