@@ -11517,8 +11517,8 @@ function agregarFila() {
     div.id = `fila-${contador}`;
     div.innerHTML = `
         <div><label>Plan de Seguro</label><select id="p-${contador}" onchange="calc(${contador})">
-            <option value="">-- SELECCIONAR PLAN --</option>
-            <option value="0 ACC CLASS">0 ACC CLASSIC</option>
+            <option value="">Seleccionar...</option>
+            <option value="0 ACC CLASSIC">0 ACC CLASSIC</option>
             <option value="0 ACC PREMIUM">0 ACC PREMIUM</option>
             <option value="A.S. CLASSIC">A.S. CLASSIC</option>
             <option value="A.S. CLASSIC (40%)">A.S. CLASSIC (40%)</option>
@@ -11551,21 +11551,21 @@ function agregarFila() {
             <option value="PROTECCIÓN HOSPITALARIA">PROTECCIÓN HOSPITALARIA</option>
         </select></div>
         <div><label>Frecuencia</label><select id="pg-${contador}" onchange="calc(${contador})">
-            <option value="">-- SELECCIONAR --</option>
+            <option value="">Seleccionar...</option>
             <option value="MENSUAL">MENSUAL</option>
             <option value="ANUAL">ANUAL</option>
         </select></div>
         <div><label>Medio Pago</label><select id="t-${contador}" onchange="calc(${contador})">
-            <option value="">-- SELECCIONAR --</option>
+            <option value="">Seleccionar...</option>
             <option value="DEBITO">DÉBITO</option>
             <option value="CREDITO">CRÉDITO</option>
         </select></div>
         <div><label>¿Fuma?</label><select id="f-${contador}" onchange="calc(${contador})">
-            <option value="">-- SELECCIONAR --</option>
+            <option value="">Seleccionar...</option>
             <option value="NO">NO</option>
             <option value="SI">SI</option>
         </select></div>
-        <div><label>Edad</label><input type="number" id="e-${contador}" placeholder="0" oninput="calc(${contador})"></div>
+        <div><label>Edad</label><input type="number" id="e-${contador}" placeholder="Edad" oninput="calc(${contador})"></div>
         <div class="monto-fila" id="res-${contador}">S/ 0.00</div>
         <div><button class="btn-del" onclick="borrar(${contador})">✕</button></div>
     `;
@@ -11578,6 +11578,7 @@ function calc(id) {
     const val = (s) => document.getElementById(s + '-' + id).value;
     const p = val('p'), pg = val('pg'), t = val('t'), f = val('f'), e = val('e');
     
+    // Si falta cualquier dato, el monto es 0
     if (p === "" || pg === "" || t === "" || f === "" || e === "") {
         document.getElementById(`res-${id}`).innerText = "S/ 0.00";
         sumarTodo();
