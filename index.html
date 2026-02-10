@@ -7,12 +7,11 @@
     <style>
         :root { 
             --ios-blue: #007AFF; 
-            --ios-bg: rgba(255, 255, 255, 0.75);
+            --ios-bg: rgba(255, 255, 255, 0.72);
             --ios-gray: #f2f2f7;
         }
 
         body {
-            /* Fuente de iPhone */
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
             background: linear-gradient(rgba(0, 51, 153, 0.7), rgba(0, 51, 153, 0.7)), 
                         url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070&auto=format&fit=crop');
@@ -20,7 +19,7 @@
             margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* CUADRO DE TOTAL (Estilo Widget) */
+        /* CUADRO DE TOTAL ESTILO WIDGET */
         .total-box {
             position: fixed; bottom: 30px; right: 30px;
             background: rgba(255, 255, 255, 0.85); 
@@ -29,8 +28,10 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
             border: 1px solid rgba(255,255,255,0.3);
             text-align: center; z-index: 1000; min-width: 180px;
+            transition: transform 0.3s ease;
         }
-        #suma-total { font-size: 34px; font-weight: 700; color: var(--ios-blue); letter-spacing: -1px; }
+        .total-box div:first-child { font-size: 10px; font-weight: 600; color: #8e8e93; margin-bottom: 5px; text-transform: uppercase; }
+        #suma-total { font-size: 36px; font-weight: 700; color: var(--ios-blue); letter-spacing: -1px; }
 
         .container {
             background: var(--ios-bg); 
@@ -40,43 +41,49 @@
             border: 1px solid rgba(255,255,255,0.4);
         }
 
-        h2 { text-align:center; color: #1d1d1f; font-weight: 700; font-size: 30px; letter-spacing: -0.8px; }
+        /* NOMBRE EXACTO SOLICITADO */
+        h2 { 
+            text-align:center; color: #1d1d1f; font-weight: 800; 
+            font-size: 28px; margin-top:0; margin-bottom: 35px; 
+            letter-spacing: -0.5px;
+        }
 
         /* FILAS ESTILO iOS */
         .cotizacion-row {
             display: grid; grid-template-columns: 2.5fr 1.2fr 1.2fr 0.8fr 0.8fr 1.4fr 0.5fr;
-            gap: 12px; padding: 18px; background: rgba(255, 255, 255, 0.4); 
-            border-radius: 20px; margin-bottom: 12px; align-items: end; 
+            gap: 12px; padding: 18px; background: rgba(255, 255, 255, 0.45); 
+            border-radius: 20px; margin-bottom: 15px; align-items: end; 
             border: 1px solid rgba(255,255,255,0.5);
             transition: all 0.3s ease;
         }
+        .cotizacion-row:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.7); }
 
-        label { display: block; font-size: 10px; font-weight: 600; color: #6e6e73; margin-bottom: 6px; text-transform: uppercase; }
+        label { display: block; font-size: 10px; font-weight: 700; color: #6e6e73; margin-bottom: 6px; text-transform: uppercase; }
         
         /* SELECTS ESTILO iPHONE (MOVIBLES) */
         select, input { 
-            -webkit-appearance: none; appearance: none; /* QUITA EL ESTILO VIEJO DE WINDOWS */
-            width: 100%; padding: 11px; border: none; border-radius: 12px; 
+            -webkit-appearance: none; appearance: none; 
+            width: 100%; padding: 12px; border: none; border-radius: 12px; 
             font-size: 15px; color: #1d1d1f; font-weight: 500; outline: none;
             background-color: white; cursor: pointer;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat; background-position: right 12px center;
-            transition: transform 0.2s ease, background-color 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Efecto de presión al tocar */
+        /* Efecto de presión al tocar (Movible) */
         select:active, input:focus { 
             transform: scale(0.96); 
             background-color: var(--ios-gray);
         }
 
-        .monto-fila { font-weight: 700; color: var(--ios-blue); font-size: 24px; text-align: right; }
+        .monto-fila { font-weight: 700; color: var(--ios-blue); font-size: 26px; text-align: right; letter-spacing: -0.5px; }
 
         .btn-add {
             background: var(--ios-blue); color: white; border: none; padding: 16px 32px;
             border-radius: 18px; font-weight: 600; cursor: pointer; transition: 0.3s;
         }
-        .btn-add:active { transform: scale(0.95); }
+        .btn-add:active { transform: scale(0.94); }
         
         .btn-del { 
             background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: none; 
@@ -88,12 +95,12 @@
 <body>
 
 <div class="total-box">
-    <div style="font-size: 10px; font-weight: 600; color: #8e8e93; margin-bottom: 5px;">TOTAL GENERAL</div>
+    <div>TOTAL GENERAL</div>
     <div id="suma-total">S/ 0.00</div>
 </div>
 
 <div class="container">
-    <h2>Calculadora Oncosalud</h2>
+    <h2>CALCULADORA ONCOSALUD TCONTAKTO</h2>
     <div id="lista-cotizaciones"></div>
     <div style="text-align: center; margin-top: 25px;">
         <button class="btn-add" onclick="agregarFila()">+ Agregar otro seguro</button>
@@ -11529,8 +11536,33 @@ function agregarFila() {
             <option value="0 ACC CLASSIC">0 ACC CLASSIC</option>
             <option value="0 ACC PREMIUM">0 ACC PREMIUM</option>
             <option value="A.S. CLASSIC">A.S. CLASSIC</option>
+            <option value="A.S. CLASSIC (40%)">A.S. CLASSIC (40%)</option>
+            <option value="A.S. PREMIUM">A.S. PREMIUM</option>
+            <option value="A.S. PREMIUM (40%)">A.S. PREMIUM (40%)</option>
+            <option value="A.S. SENIOR">A.S. SENIOR</option>
+            <option value="A.S. SENIOR (30%)">A.S. SENIOR (30%)</option>
+            <option value="DR. AUNA">DR. AUNA</option>
+            <option value="DR. AUNA PLUS">DR. AUNA PLUS</option>
+            <option value="DR. AUNA PLUS + P.H.">DR. AUNA PLUS + P.H.</option>
+            <option value="DR. AUNA PLUS + P.H. (30% dscto)">DR. AUNA PLUS + P.H. (30% dscto)</option>
+            <option value="DR. AUNA PLUS(30%)">DR. AUNA PLUS(30%)</option>
+            <option value="ONCOCLASICO PRO">ONCOCLASICO PRO</option>
+            <option value="ONCOCLASICO PRO (30% dscto)">ONCOCLASICO PRO (30% dscto)</option>
+            <option value="ONCOCLASICO PRO (40% dscto)">ONCOCLASICO PRO (40% dscto)</option>
+            <option value="ONCOCLASICO PRO (50% dscto)">ONCOCLASICO PRO (50% dscto)</option>
+            <option value="ONCOCLASICO PRO (55% dscto)">ONCOCLASICO PRO (55% dscto)</option>
+            <option value="ONCOCLASICO PRO (60% dscto)">ONCOCLASICO PRO (60% dscto)</option>
+            <option value="ONCOFLEX">ONCOFLEX</option>
+            <option value="ONCOFLEX (20% dscto)">ONCOFLEX (20% dscto)</option>
+            <option value="ONCOFLEX (30% dscto)">ONCOFLEX (30% dscto)</option>
             <option value="ONCOPLUS">ONCOPLUS</option>
+            <option value="ONCOPLUS (30% dscto)">ONCOPLUS (30% dscto)</option>
+            <option value="ONCOPLUS (40% dscto)">ONCOPLUS (40% dscto)</option>
+            <option value="ONCOPLUS (50% dscto)">ONCOPLUS (50% dscto)</option>
+            <option value="ONCOPLUS (55% dscto)">ONCOPLUS (55% dscto)</option>
+            <option value="ONCOPLUS (60% dscto)">ONCOPLUS (60% dscto)</option>
             <option value="ONCOVITAL">ONCOVITAL</option>
+            <option value="ONCOVITAL KIDS">ONCOVITAL KIDS</option>
             <option value="PROTECCIÓN HOSPITALARIA">PROTECCIÓN HOSPITALARIA</option>
         </select></div>
         <div><label>Frecuencia</label><select id="pg-${contador}" onchange="calc(${contador})">
