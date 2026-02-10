@@ -3,201 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotizador Pro - Sistema de Seguros</title>
+    <title>Cotizador Maestro Multi-Seguros</title>
     <style>
-        :root {
-            --primary: #1a73e8;
-            --primary-dark: #1557b0;
-            --bg: #f8f9fa;
-            --text: #202124;
-            --white: #ffffff;
-            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        :root { --primary: #1a73e8; --white: #ffffff; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(rgba(0, 51, 153, 0.7), rgba(0, 51, 153, 0.7)), 
+                        url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-attachment: fixed;
+            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
         }
-
-  body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    /* Fondo profesional con degradado azul */
-    background: linear-gradient(rgba(0, 51, 153, 0.7), rgba(0, 51, 153, 0.7)), 
-                url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    width: 100%;
-    max-width: 450px;
-    border: 1px solid rgba(255,255,255,0.3);
-}
-
-        h2 { 
-            text-align: center; 
-            color: var(--primary); 
-            margin-bottom: 30px; 
-            font-weight: 700;
-            letter-spacing: -0.5px;
+        .total-box {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--white); padding: 15px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 4px solid var(--primary);
+            text-align: center; z-index: 1000; min-width: 180px;
         }
-
-        .form-group { margin-bottom: 20px; }
-
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #5f6368; 
+        #suma-total { font-size: 32px; font-weight: 900; color: var(--primary); }
+        .container {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 24px; width: 100%; max-width: 1100px;
+            margin-bottom: 100px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
-
-        select, input { 
-            width: 100%; 
-            padding: 12px 15px; 
-            border: 1px solid #dadce0; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            transition: border-color 0.2s;
-            box-sizing: border-box;
-            outline: none;
+        .cotizacion-row {
+            display: grid; grid-template-columns: 2.5fr 1.2fr 1.2fr 0.8fr 0.8fr 1.2fr 0.5fr;
+            gap: 10px; padding: 15px; background: white; border-radius: 15px;
+            margin-bottom: 12px; align-items: end; border: 1px solid #ddd;
         }
-
-        select:focus, input:focus { border-color: var(--primary); }
-
-        .button-group { display: flex; gap: 10px; margin-top: 30px; }
-
-        button { 
-            flex: 2;
-            padding: 15px; 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: background 0.2s;
+        label { display: block; font-size: 11px; font-weight: 700; color: #666; margin-bottom: 4px; }
+        select, input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; }
+        .monto-fila { font-weight: 800; color: var(--primary); font-size: 18px; text-align: right; padding-bottom: 5px; }
+        .btn-add {
+            background: #34a853; color: white; border: none; padding: 12px 25px;
+            border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
-
-        button:hover { background: var(--primary-dark); }
-
-        button.secondary { 
-            flex: 1;
-            background: #f1f3f4; 
-            color: #3c4043; 
-        }
-
-        button.secondary:hover { background: #e8eaed; }
-
-        #result-card { 
-            margin-top: 30px; 
-            padding: 25px; 
-            background: #f1f8fe; 
-            border-radius: 12px; 
-            text-align: center; 
-            border: 1px solid #d2e3fc;
-        }
-
-        .result-label { font-size: 14px; color: #1967d2; font-weight: 600; margin-bottom: 5px; }
-        .monto { font-size: 42px; color: var(--text); font-weight: 800; }
-        .debug-info { font-size: 11px; color: #80868b; margin-top: 15px; font-family: monospace; }
+        .btn-del { background: #d93025; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
+<div class="total-box">
+    <div style="font-size: 11px; font-weight: 700; color: #666;">TOTAL GENERAL</div>
+    <div id="suma-total">S/ 0.00</div>
+</div>
+
 <div class="container">
-    <h2>Cotizador Maestro</h2>
-    
-    <div class="form-group">
-        <label>Plan de Seguro</label>
-        <select id="plan">
-    <option value="0 ACC CLASSIC">0 ACC CLASSIC</option>
-    <option value="0 ACC PREMIUM">0 ACC PREMIUM</option>
-    <option value="A.S. CLASSIC">A.S. CLASSIC</option>
-    <option value="A.S. CLASSIC (40%)">A.S. CLASSIC (40%)</option>
-    <option value="A.S. PREMIUM">A.S. PREMIUM</option>
-    <option value="A.S. PREMIUM (40%)">A.S. PREMIUM (40%)</option>
-    <option value="A.S. SENIOR">A.S. SENIOR</option>
-    <option value="A.S. SENIOR (30%)">A.S. SENIOR (30%)</option>
-    <option value="DR. AUNA">DR. AUNA</option>
-    <option value="DR. AUNA PLUS">DR. AUNA PLUS</option>
-    <option value="DR. AUNA PLUS + P.H.">DR. AUNA PLUS + P.H.</option>
-    <option value="DR. AUNA PLUS + P.H. (30% dscto)">DR. AUNA PLUS + P.H. (30% dscto)</option>
-    <option value="DR. AUNA PLUS(30%)">DR. AUNA PLUS(30%)</option>
-    <option value="ONCOCLASICO PRO">ONCOCLASICO PRO</option>
-    <option value="ONCOCLASICO PRO (30% dscto)">ONCOCLASICO PRO (30% dscto)</option>
-    <option value="ONCOCLASICO PRO (40% dscto)">ONCOCLASICO PRO (40% dscto)</option>
-    <option value="ONCOCLASICO PRO (50% dscto)">ONCOCLASICO PRO (50% dscto)</option>
-    <option value="ONCOCLASICO PRO (55% dscto)">ONCOCLASICO PRO (55% dscto)</option>
-    <option value="ONCOCLASICO PRO (60% dscto)">ONCOCLASICO PRO (60% dscto)</option>
-    <option value="ONCOFLEX">ONCOFLEX</option>
-    <option value="ONCOFLEX (20% dscto)">ONCOFLEX (20% dscto)</option>
-    <option value="ONCOFLEX (30% dscto)">ONCOFLEX (30% dscto)</option>
-    <option value="ONCOPLUS">ONCOPLUS</option>
-    <option value="ONCOPLUS (30% dscto)">ONCOPLUS (30% dscto)</option>
-    <option value="ONCOPLUS (40% dscto)">ONCOPLUS (40% dscto)</option>
-    <option value="ONCOPLUS (50% dscto)">ONCOPLUS (50% dscto)</option>
-    <option value="ONCOPLUS (55% dscto)">ONCOPLUS (55% dscto)</option>
-    <option value="ONCOPLUS (60% dscto)">ONCOPLUS (60% dscto)</option>
-    <option value="ONCOVITAL">ONCOVITAL</option>
-    <option value="ONCOVITAL KIDS">ONCOVITAL KIDS</option>
-    <option value="PROTECCIÓN HOSPITALARIA">PROTECCIÓN HOSPITALARIA</option>
-</select>
-    </div>
-
-    <div style="display: flex; gap: 15px;">
-        <div class="form-group" style="flex: 1;">
-            <label>Frecuencia</label>
-            <select id="pago">
-                <option value="MENSUAL">MENSUAL</option>
-                <option value="ANUAL">ANUAL</option>
-            </select>
-        </div>
-        <div class="form-group" style="flex: 1;">
-            <label>Medio de Pago</label>
-            <select id="tarjeta">
-                <option value="DEBITO">DÉBITO</option>
-                <option value="CREDITO">CRÉDITO</option>
-            </select>
-        </div>
-    </div>
-
-    <div style="display: flex; gap: 15px;">
-        <div class="form-group" style="flex: 1;">
-            <label>¿Fumador?</label>
-            <select id="fuma">
-                <option value="NO">NO</option>
-                <option value="SI">SI</option>
-            </select>
-        </div>
-        <div class="form-group" style="flex: 1;">
-            <label>Edad</label>
-            <input type="number" id="edad" value="30">
-        </div>
-    </div>
-
-    <div class="button-group">
-        <button onclick="calcular()">Obtener Cotización</button>
-        <button class="secondary" onclick="limpiar()">Limpiar</button>
-    </div>
-
-    <div id="result-card">
-        <div class="result-label">PRIMA ESTIMADA</div>
-        <div id="res" class="monto">S/ 0.00</div>
-        <div id="debug" class="debug-info">Esperando datos...</div>
-    </div>
+    <h2 style="text-align:center; color:var(--primary); margin-top:0;">Cotizador Maestro (Multi-Seguros)</h2>
+    <div id="lista-cotizaciones"></div>
+    <button class="btn-add" onclick="agregarFila()">+ Agregar otro seguro</button>
 </div>
 
 <script>
-// BASE DE DATOS MAESTRA
 const baseDeDatos = new Map([
 ["0 ACC CLASSICMENSUALDEBITOSI0", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI1", 20.9],
@@ -11612,40 +11468,92 @@ const baseDeDatos = new Map([
 ["PROTECCIÓN HOSPITALARIAANUALDEBITOSI60", 602.64],
 ]);
 
-function calcular() {
-    const p = document.getElementById('plan').value;
-    const pg = document.getElementById('pago').value;
-    const t = document.getElementById('tarjeta').value;
-    const f = document.getElementById('fuma').value;
-    const e = document.getElementById('edad').value.trim();
+let contador = 0;
+
+function agregarFila() {
+    contador++;
+    const div = document.createElement('div');
+    div.className = 'cotizacion-row';
+    div.id = `fila-${contador}`;
+    div.innerHTML = `
+        <div><label>Plan de Seguro</label><select id="p-${contador}" onchange="calc(${contador})">
+            <option value="0 ACC CLASSIC">0 ACC CLASSIC</option>
+            <option value="0 ACC PREMIUM">0 ACC PREMIUM</option>
+            <option value="A.S. CLASSIC">A.S. CLASSIC</option>
+            <option value="A.S. CLASSIC (40%)">A.S. CLASSIC (40%)</option>
+            <option value="A.S. PREMIUM">A.S. PREMIUM</option>
+            <option value="A.S. PREMIUM (40%)">A.S. PREMIUM (40%)</option>
+            <option value="A.S. SENIOR">A.S. SENIOR</option>
+            <option value="A.S. SENIOR (30%)">A.S. SENIOR (30%)</option>
+            <option value="DR. AUNA">DR. AUNA</option>
+            <option value="DR. AUNA PLUS">DR. AUNA PLUS</option>
+            <option value="DR. AUNA PLUS + P.H.">DR. AUNA PLUS + P.H.</option>
+            <option value="DR. AUNA PLUS + P.H. (30% dscto)">DR. AUNA PLUS + P.H. (30% dscto)</option>
+            <option value="DR. AUNA PLUS(30%)">DR. AUNA PLUS(30%)</option>
+            <option value="ONCOCLASICO PRO">ONCOCLASICO PRO</option>
+            <option value="ONCOCLASICO PRO (30% dscto)">ONCOCLASICO PRO (30% dscto)</option>
+            <option value="ONCOCLASICO PRO (40% dscto)">ONCOCLASICO PRO (40% dscto)</option>
+            <option value="ONCOCLASICO PRO (50% dscto)">ONCOCLASICO PRO (50% dscto)</option>
+            <option value="ONCOCLASICO PRO (55% dscto)">ONCOCLASICO PRO (55% dscto)</option>
+            <option value="ONCOCLASICO PRO (60% dscto)">ONCOCLASICO PRO (60% dscto)</option>
+            <option value="ONCOFLEX">ONCOFLEX</option>
+            <option value="ONCOFLEX (20% dscto)">ONCOFLEX (20% dscto)</option>
+            <option value="ONCOFLEX (30% dscto)">ONCOFLEX (30% dscto)</option>
+            <option value="ONCOPLUS">ONCOPLUS</option>
+            <option value="ONCOPLUS (30% dscto)">ONCOPLUS (30% dscto)</option>
+            <option value="ONCOPLUS (40% dscto)">ONCOPLUS (40% dscto)</option>
+            <option value="ONCOPLUS (50% dscto)">ONCOPLUS (50% dscto)</option>
+            <option value="ONCOPLUS (55% dscto)">ONCOPLUS (55% dscto)</option>
+            <option value="ONCOPLUS (60% dscto)">ONCOPLUS (60% dscto)</option>
+            <option value="ONCOVITAL">ONCOVITAL</option>
+            <option value="ONCOVITAL KIDS">ONCOVITAL KIDS</option>
+            <option value="PROTECCIÓN HOSPITALARIA">PROTECCIÓN HOSPITALARIA</option>
+        </select></div>
+        <div><label>Frecuencia</label><select id="pg-${contador}" onchange="calc(${contador})">
+            <option value="MENSUAL">MENSUAL</option><option value="ANUAL">ANUAL</option>
+        </select></div>
+        <div><label>Medio Pago</label><select id="t-${contador}" onchange="calc(${contador})">
+            <option value="DEBITO">DÉBITO</option><option value="CREDITO">CRÉDITO</option>
+        </select></div>
+        <div><label>¿Fuma?</label><select id="f-${contador}" onchange="calc(${contador})">
+            <option value="NO">NO</option><option value="SI">SI</option>
+        </select></div>
+        <div><label>Edad</label><input type="number" id="e-${contador}" value="30" oninput="calc(${contador})"></div>
+        <div class="monto-fila" id="res-${contador}">S/ 0.00</div>
+        <div><button class="btn-del" onclick="borrar(${contador})">✖</button></div>
+    `;
+    document.getElementById('lista-cotizaciones').appendChild(div);
+    calc(contador);
+}
+
+function borrar(id) {
+    document.getElementById(`fila-${id}`).remove();
+    sumarTodo();
+}
+
+function calc(id) {
+    const p = document.getElementById(`p-${id}`).value;
+    const pg = document.getElementById(`pg-${id}`).value;
+    const t = document.getElementById(`t-${id}`).value;
+    const f = document.getElementById(`f-${id}`).value;
+    const e = document.getElementById(`e-${id}`).value;
     
-    // Construcción de la llave idéntica al Excel
     const llave = p + pg + t + f + e;
-    const precio = baseDeDatos.get(llave);
-
-    if (precio !== undefined) {
-        document.getElementById('res').innerText = "S/ " + parseFloat(precio).toFixed(2);
-        document.getElementById('res').style.color = "#1a73e8";
-        document.getElementById('debug').innerText = "ID de búsqueda: " + llave;
-    } else {
-        document.getElementById('res').innerText = "S/ 0.00";
-        document.getElementById('res').style.color = "#d93025";
-        document.getElementById('debug').innerText = "No se encontró registro para: " + llave;
-    }
+    const precio = baseDeDatos.get(llave) || 0;
+    
+    document.getElementById(`res-${id}`).innerText = "S/ " + parseFloat(precio).toFixed(2);
+    sumarTodo();
 }
 
-function limpiar() {
-    document.getElementById('edad').value = "30";
-    document.getElementById('res').innerText = "S/ 0.00";
-    document.getElementById('res').style.color = "#202124";
-    document.getElementById('debug').innerText = "Formulario reiniciado";
+function sumarTodo() {
+    let total = 0;
+    document.querySelectorAll('.monto-fila').forEach(el => {
+        total += parseFloat(el.innerText.replace('S/ ', '')) || 0;
+    });
+    document.getElementById('suma-total').innerText = "S/ " + total.toFixed(2);
 }
+
+window.onload = agregarFila;
 </script>
-
 </body>
 </html>
-
-
-
-
-
