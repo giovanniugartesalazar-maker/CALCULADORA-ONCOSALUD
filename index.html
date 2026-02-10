@@ -6,70 +6,108 @@
     <title>CALCULADORA ONCOSALUD TCONTAKTO</title>
     <style>
         :root { 
-            --primary: #1a73e8; 
-            --dark-blue: #003399;
+            --ios-blue: #007AFF; 
+            --ios-gray: #8e8e93;
             --white: #ffffff; 
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(0, 51, 153, 0.75), rgba(0, 51, 153, 0.75)), 
+            /* Fuente San Francisco (Apple) */
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+            background: linear-gradient(rgba(0, 51, 153, 0.7), rgba(0, 51, 153, 0.7)), 
                         url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070&auto=format&fit=crop');
             background-size: cover; background-attachment: fixed;
             margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
+            -webkit-font-smoothing: antialiased;
         }
-        /* CUADRO DE TOTAL */
+
+        /* CUADRO DE TOTAL ESTILO WIDGET iPHONE */
         .total-box {
             position: fixed; bottom: 30px; right: 30px;
-            background: var(--white); padding: 20px; border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 3px solid var(--primary);
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 20px; border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            border: 1px solid rgba(255,255,255,0.3);
             text-align: center; z-index: 1000; min-width: 200px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .total-box div:first-child { font-size: 11px; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 5px; }
-        #suma-total { font-size: 34px; font-weight: 900; color: var(--primary); }
+        .total-box:hover { transform: scale(1.05); }
+        .total-box div:first-child { font-size: 10px; font-weight: 600; color: var(--ios-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        #suma-total { font-size: 36px; font-weight: 700; color: var(--ios-blue); letter-spacing: -1px; }
 
+        /* CONTENEDOR TRASLÚCIDO */
         .container {
-            background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px);
-            padding: 40px; border-radius: 20px; width: 100%; max-width: 1150px;
-            margin-bottom: 100px; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            padding: 40px; border-radius: 35px; width: 100%; max-width: 1150px;
+            margin-bottom: 100px; box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.4);
         }
         h2 { 
-            text-align:center; color: var(--dark-blue); font-weight: 800; 
-            font-size: 28px; margin-top:0; margin-bottom: 30px;
+            text-align:center; color: #1d1d1f; font-weight: 700; 
+            font-size: 32px; margin-top:0; margin-bottom: 35px;
+            letter-spacing: -0.8px;
         }
 
-        /* CUADRITOS DE FILA */
+        /* FILAS ESTILO LISTA iOS */
         .cotizacion-row {
             display: grid; grid-template-columns: 2.5fr 1.2fr 1.2fr 0.8fr 0.8fr 1.4fr 0.5fr;
-            gap: 12px; padding: 20px; background: #ffffff; border-radius: 12px;
-            margin-bottom: 15px; align-items: end; border: 1px solid #ddd;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            gap: 12px; padding: 18px; 
+            background: rgba(255, 255, 255, 0.4); 
+            border-radius: 20px;
+            margin-bottom: 15px; align-items: end; 
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+        .cotizacion-row:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
         }
 
-        label { display: block; font-size: 11px; font-weight: 700; color: #555; margin-bottom: 5px; text-transform: uppercase; }
+        label { display: block; font-size: 10px; font-weight: 600; color: #6e6e73; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px; }
         
+        /* SELECTS Y INPUTS "APPLE LOOK" */
         select, input { 
-            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; 
-            font-size: 14px; color: #333; outline: none;
+            width: 100%; padding: 11px; border: none; border-radius: 12px; 
+            font-size: 15px; color: #1d1d1f; font-weight: 500; outline: none;
+            background-color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
         }
 
-        /* NÚMEROS ESTILO ANTERIOR */
+        /* EFECTO MOVIBLE AL TOCAR */
+        select:active, input:focus { 
+            transform: scale(0.97); 
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
         .monto-fila { 
-            font-weight: 800; color: var(--primary); font-size: 22px; 
-            text-align: right; padding-bottom: 5px;
+            font-weight: 700; color: var(--ios-blue); font-size: 26px; 
+            text-align: right; padding-bottom: 4px; letter-spacing: -0.5px;
         }
 
+        /* BOTÓN AGREGAR (AZUL iOS) */
         .btn-add {
-            background: #28a745; color: white; border: none; padding: 15px 30px;
-            border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s;
-            text-transform: uppercase;
+            background: var(--ios-blue); color: white; border: none; padding: 16px 32px;
+            border-radius: 18px; font-weight: 600; cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 16px;
         }
-        .btn-add:hover { background: #218838; transform: translateY(-1px); }
+        .btn-add:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-add:active { transform: scale(0.95); }
         
+        /* BOTÓN ELIMINAR MINIMALISTA */
         .btn-del { 
-            background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; 
-            padding: 8px; border-radius: 8px; cursor: pointer;
+            background: rgba(255, 59, 48, 0.12); color: #ff3b30; border: none; 
+            padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.2s;
+            font-weight: bold;
         }
-        .btn-del:hover { background: #dc3545; color: white; }
+        .btn-del:hover { background: #ff3b30; color: white; }
     </style>
 </head>
 <body>
@@ -80,15 +118,16 @@
 </div>
 
 <div class="container">
-    <h2>CALCULADORA ONCOSALUD TCONTAKTO</h2>
+    <h2>Calculadora Oncosalud</h2>
     <div id="lista-cotizaciones"></div>
-    <div style="text-align: center; margin-top: 20px;">
+    <div style="text-align: center; margin-top: 25px;">
         <button class="btn-add" onclick="agregarFila()">+ Agregar otro seguro</button>
     </div>
 </div>
 
 <script>
-const baseDeDatos = new Map([["0 ACC CLASSICMENSUALDEBITOSI0", 20.9],
+const baseDeDatos = new Map([
+["0 ACC CLASSICMENSUALDEBITOSI0", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI1", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI2", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI3", 20.9],
@@ -11511,7 +11550,7 @@ function agregarFila() {
     div.id = `fila-${contador}`;
     div.innerHTML = `
         <div><label>Plan de Seguro</label><select id="p-${contador}" onchange="calc(${contador})">
-            <option value="">-- SELECCIONE UN PLAN --</option>
+            <option value="">Seleccionar...</option>
             <option value="0 ACC CLASSIC">0 ACC CLASSIC</option>
             <option value="0 ACC PREMIUM">0 ACC PREMIUM</option>
             <option value="A.S. CLASSIC">A.S. CLASSIC</option>
@@ -11545,17 +11584,17 @@ function agregarFila() {
             <option value="PROTECCIÓN HOSPITALARIA">PROTECCIÓN HOSPITALARIA</option>
         </select></div>
         <div><label>Frecuencia</label><select id="pg-${contador}" onchange="calc(${contador})">
-            <option value="MENSUAL">MENSUAL</option><option value="ANUAL">ANUAL</option>
+            <option value="MENSUAL">Mensual</option><option value="ANUAL">Anual</option>
         </select></div>
         <div><label>Medio Pago</label><select id="t-${contador}" onchange="calc(${contador})">
-            <option value="DEBITO">DÉBITO</option><option value="CREDITO">CRÉDITO</option>
+            <option value="DEBITO">Débito</option><option value="CREDITO">Crédito</option>
         </select></div>
         <div><label>¿Fuma?</label><select id="f-${contador}" onchange="calc(${contador})">
-            <option value="NO">NO</option><option value="SI">SI</option>
+            <option value="NO">No</option><option value="SI">Sí</option>
         </select></div>
         <div><label>Edad</label><input type="number" id="e-${contador}" value="30" oninput="calc(${contador})"></div>
         <div class="monto-fila" id="res-${contador}">S/ 0.00</div>
-        <div><button class="btn-del" onclick="borrar(${contador})">✖</button></div>
+        <div><button class="btn-del" onclick="borrar(${contador})">✕</button></div>
     `;
     document.getElementById('lista-cotizaciones').appendChild(div);
 }
