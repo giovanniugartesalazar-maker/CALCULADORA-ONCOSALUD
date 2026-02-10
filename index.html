@@ -3,59 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Oncosalud - Tcontakto</title>
+    <title>CALCULADORA ONCOSALUD TCONTAKTO</title>
     <style>
-        :root { --primary: #1a73e8; --white: #ffffff; }
+        :root { 
+            --primary: #1a73e8; 
+            --dark-blue: #003399;
+            --white: #ffffff; 
+        }
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(rgba(0, 51, 153, 0.7), rgba(0, 51, 153, 0.7)), 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0, 51, 153, 0.75), rgba(0, 51, 153, 0.75)), 
                         url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070&auto=format&fit=crop');
             background-size: cover; background-attachment: fixed;
             margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
         }
+        /* CUADRO DE TOTAL */
         .total-box {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--white); padding: 15px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 4px solid var(--primary);
-            text-align: center; z-index: 1000; min-width: 180px;
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--white); padding: 20px; border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 3px solid var(--primary);
+            text-align: center; z-index: 1000; min-width: 200px;
         }
-        #suma-total { font-size: 32px; font-weight: 900; color: var(--primary); }
+        .total-box div:first-child { font-size: 11px; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 5px; }
+        #suma-total { font-size: 34px; font-weight: 900; color: var(--primary); }
+
         .container {
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            padding: 30px; border-radius: 24px; width: 100%; max-width: 1100px;
-            margin-bottom: 100px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px);
+            padding: 40px; border-radius: 20px; width: 100%; max-width: 1150px;
+            margin-bottom: 100px; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }
+        h2 { 
+            text-align:center; color: var(--dark-blue); font-weight: 800; 
+            font-size: 28px; margin-top:0; margin-bottom: 30px;
+        }
+
+        /* CUADRITOS DE FILA */
         .cotizacion-row {
-            display: grid; grid-template-columns: 2.5fr 1.2fr 1.2fr 0.8fr 0.8fr 1.2fr 0.5fr;
-            gap: 10px; padding: 15px; background: white; border-radius: 15px;
-            margin-bottom: 12px; align-items: end; border: 1px solid #ddd;
+            display: grid; grid-template-columns: 2.5fr 1.2fr 1.2fr 0.8fr 0.8fr 1.4fr 0.5fr;
+            gap: 12px; padding: 20px; background: #ffffff; border-radius: 12px;
+            margin-bottom: 15px; align-items: end; border: 1px solid #ddd;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        label { display: block; font-size: 11px; font-weight: 700; color: #666; margin-bottom: 4px; }
-        select, input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; }
-        .monto-fila { font-weight: 800; color: var(--primary); font-size: 18px; text-align: right; padding-bottom: 5px; }
+
+        label { display: block; font-size: 11px; font-weight: 700; color: #555; margin-bottom: 5px; text-transform: uppercase; }
+        
+        select, input { 
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; 
+            font-size: 14px; color: #333; outline: none;
+        }
+
+        /* NÚMEROS ESTILO ANTERIOR */
+        .monto-fila { 
+            font-weight: 800; color: var(--primary); font-size: 22px; 
+            text-align: right; padding-bottom: 5px;
+        }
+
         .btn-add {
-            background: #34a853; color: white; border: none; padding: 12px 25px;
-            border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
+            background: #28a745; color: white; border: none; padding: 15px 30px;
+            border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s;
+            text-transform: uppercase;
         }
-        .btn-del { background: #d93025; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; }
+        .btn-add:hover { background: #218838; transform: translateY(-1px); }
+        
+        .btn-del { 
+            background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; 
+            padding: 8px; border-radius: 8px; cursor: pointer;
+        }
+        .btn-del:hover { background: #dc3545; color: white; }
     </style>
 </head>
 <body>
 
 <div class="total-box">
-    <div style="font-size: 11px; font-weight: 700; color: #666;">TOTAL GENERAL</div>
+    <div>TOTAL GENERAL</div>
     <div id="suma-total">S/ 0.00</div>
 </div>
 
 <div class="container">
-    <h2 style="text-align:center; color:var(--primary); margin-top:0;">Cotizador Maestro (Multi-Seguros)</h2>
+    <h2>CALCULADORA ONCOSALUD TCONTAKTO</h2>
     <div id="lista-cotizaciones"></div>
-    <button class="btn-add" onclick="agregarFila()">+ Agregar otro seguro</button>
+    <div style="text-align: center; margin-top: 20px;">
+        <button class="btn-add" onclick="agregarFila()">+ Agregar otro seguro</button>
+    </div>
 </div>
 
 <script>
-const baseDeDatos = new Map([
-["0 ACC CLASSICMENSUALDEBITOSI0", 20.9],
+const baseDeDatos = new Map([["0 ACC CLASSICMENSUALDEBITOSI0", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI1", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI2", 20.9],
 ["0 ACC CLASSICMENSUALDEBITOSI3", 20.9],
@@ -11466,6 +11499,7 @@ const baseDeDatos = new Map([
 ["PROTECCIÓN HOSPITALARIAANUALDEBITOSI58", 602.64],
 ["PROTECCIÓN HOSPITALARIAANUALDEBITOSI59", 602.64],
 ["PROTECCIÓN HOSPITALARIAANUALDEBITOSI60", 602.64],
+
 ]);
 
 let contador = 0;
@@ -11477,6 +11511,7 @@ function agregarFila() {
     div.id = `fila-${contador}`;
     div.innerHTML = `
         <div><label>Plan de Seguro</label><select id="p-${contador}" onchange="calc(${contador})">
+            <option value="">-- SELECCIONE UN PLAN --</option>
             <option value="0 ACC CLASSIC">0 ACC CLASSIC</option>
             <option value="0 ACC PREMIUM">0 ACC PREMIUM</option>
             <option value="A.S. CLASSIC">A.S. CLASSIC</option>
@@ -11523,38 +11558,31 @@ function agregarFila() {
         <div><button class="btn-del" onclick="borrar(${contador})">✖</button></div>
     `;
     document.getElementById('lista-cotizaciones').appendChild(div);
-    calc(contador);
 }
 
-function borrar(id) {
-    document.getElementById(`fila-${id}`).remove();
-    sumarTodo();
-}
+function borrar(id) { document.getElementById(`fila-${id}`).remove(); sumarTodo(); }
 
 function calc(id) {
-    const p = document.getElementById(`p-${id}`).value;
-    const pg = document.getElementById(`pg-${id}`).value;
-    const t = document.getElementById(`t-${id}`).value;
-    const f = document.getElementById(`f-${id}`).value;
-    const e = document.getElementById(`e-${id}`).value;
-    
-    const llave = p + pg + t + f + e;
+    const val = (s) => document.getElementById(s + '-' + id).value;
+    const plan = val('p');
+    if (plan === "") {
+        document.getElementById(`res-${id}`).innerText = "S/ 0.00";
+        sumarTodo();
+        return;
+    }
+    const llave = plan + val('pg') + val('t') + val('f') + val('e');
     const precio = baseDeDatos.get(llave) || 0;
-    
     document.getElementById(`res-${id}`).innerText = "S/ " + parseFloat(precio).toFixed(2);
     sumarTodo();
 }
 
 function sumarTodo() {
-    let total = 0;
-    document.querySelectorAll('.monto-fila').forEach(el => {
-        total += parseFloat(el.innerText.replace('S/ ', '')) || 0;
-    });
-    document.getElementById('suma-total').innerText = "S/ " + total.toFixed(2);
+    let t = 0;
+    document.querySelectorAll('.monto-fila').forEach(el => t += parseFloat(el.innerText.replace('S/ ', '')) || 0);
+    document.getElementById('suma-total').innerText = "S/ " + t.toFixed(2);
 }
 
 window.onload = agregarFila;
 </script>
 </body>
 </html>
-
